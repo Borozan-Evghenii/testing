@@ -1,14 +1,14 @@
 import React from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
-export const User = () => {
+export const Users = () => {
   const [users, setUsers] = React.useState([]);
 
   const requestUsers = async () => {
     const response = await axios.get(
       "https://jsonplaceholder.typicode.com/users"
     );
-    console.log(response);
 
     setUsers(response.data);
   };
@@ -16,10 +16,13 @@ export const User = () => {
   React.useEffect(() => {
     requestUsers();
   }, []);
+
   return (
-    <div>
-      {users.map((user) => (
-        <div data-testid="user-item">{user.name}</div>
+    <div data-testid="users-page">
+      {users?.map((user) => (
+        <Link key={user.id} to={`/users/${user.id}`} data-testid="user-item">
+          {user.name}
+        </Link>
       ))}
     </div>
   );

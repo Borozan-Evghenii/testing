@@ -1,13 +1,20 @@
 import { test, expect, describe } from "vitest";
 import "@testing-library/jest-dom/vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+// import userEvent from "@testing-library/user-event";
+import { Index } from "./Index";
+import { testGeneralProvider } from "../../tests/router/utils/provider/testGeneralProvider";
 
-import { App } from "./App";
-
-describe("App compoenent", () => {
-  test("Test app component", () => {
-    render(<App />);
+describe("Index page compoenent", () => {
+  test("Test Index component", () => {
+    render(
+      testGeneralProvider(
+        null,
+        testGeneralProvider(null, {
+          router: { initialEntries: "/" },
+        })
+      )
+    );
     const title = screen.getByText(/title/i);
     const button = screen.getByRole("button");
     const input = screen.getByPlaceholderText("placeholder");
@@ -21,14 +28,28 @@ describe("App compoenent", () => {
   });
 
   test("async find", async () => {
-    render(<App />);
+    render(
+      testGeneralProvider(
+        null,
+        testGeneralProvider(null, {
+          router: { initialEntries: "/" },
+        })
+      )
+    );
     const hiden = await screen.findByText(/data/i);
     expect(hiden).toBeInTheDocument();
     expect(hiden).toHaveClass("hidden");
     expect(hiden).toHaveStyle({ color: "rgb(255, 0, 0)" });
   });
   test("event test", () => {
-    render(<App />);
+    render(
+      testGeneralProvider(
+        null,
+        testGeneralProvider(null, {
+          router: { initialEntries: "/" },
+        })
+      )
+    );
     const button = screen.getByTestId("button");
     // const hiddenBlock = screen.queryByTestId("hiddenBlock"); request hiddenBlock in each expect because we need to get current state of block
     expect(screen.queryByTestId("hiddenBlock")).toBeNull(); // Check if block is hidden
@@ -38,7 +59,14 @@ describe("App compoenent", () => {
     expect(screen.queryByTestId("hiddenBlock")).toBeNull(); // Check if block is showed
   });
   test("input event", () => {
-    render(<App />);
+    render(
+      testGeneralProvider(
+        null,
+        testGeneralProvider(null, {
+          router: { initialEntries: "/" },
+        })
+      )
+    );
     const input = screen.getByTestId("input");
     expect(input).toContainHTML("");
     fireEvent.input(input, {
